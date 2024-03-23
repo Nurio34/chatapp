@@ -1,12 +1,17 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
+import Header from "./2-Components/Header";
+import Main from "./2-Components/Main";
 
 function App() {
     const [count, setCount] = useState(0);
 
-    return <>app</>;
+    return (
+        <>
+            <Header />
+            <Main />
+        </>
+    );
 }
 
 export default App;

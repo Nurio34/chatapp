@@ -1,27 +1,16 @@
-import { useDispatch } from "react-redux";
-import { setUser, signWithGoogle } from "../0-Store/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, signWithGoogleFn } from "../0-Store/auth";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
+import { Navigate } from "react-router-dom";
 
 function HomePage() {
-    const dispatch = useDispatch();
+    const { user } = useSelector((store) => store.auth);
 
-    const signWithGoogleFn = async () => {
-        try {
-            await dispatch(signWithGoogle());
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            dispatch(setUser(user.displayName));
-        });
-        return unsubscribe;
-        // console.log(unsubscribe());
-    });
+    if (user.displayName) {
+        return <Navigate to="/chatapp/chat" />;
+    }
 
     return (
         <section>

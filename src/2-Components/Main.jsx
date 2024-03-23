@@ -7,9 +7,9 @@ function Main() {
     return (
         <main>
             <Routes>
-                <Route path="/" element={<HomePage />} />
+                <Route path="/chatapp" element={<HomePage />} />
                 <Route
-                    path="/chat"
+                    path="/chatapp/chat"
                     element={
                         <PrivateRoute>
                             <ChatPage />

@@ -1,36 +1,55 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-import {
-    GoogleAuthProvider,
-    onAuthStateChanged,
-    signInWithRedirect,
-} from "firebase/auth";
+import { signOut } from "firebase/auth";
+import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
 
 import { auth } from "../firebase";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-
-const provider = new GoogleAuthProvider();
 
 const initialState = {
-    user: "",
+    user: {},
+    message: "",
+    chat: [],
 };
 
 const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        signWithGoogle: (state) => {
-            const provider = new GoogleAuthProvider();
-            signInWithRedirect(auth, provider);
-        },
         setUser: (state, { payload }) => {
             state.user = payload;
         },
+        setMessage: (state, { payload }) => {
+            state.message = payload;
+        },
+        setChat: (state, { payload }) => {
+            state.chat = payload;
+        },
     },
 });
-// const dispatch = useDispatch();
+
+const signWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithRedirect(auth, provider);
+};
+
+export const signWithGoogleFn = async () => {
+    try {
+        await signWithGoogle();
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const logout = () => signOut(auth);
+
+export const logoutFn = async () => {
+    try {
+        console.log("ok");
+        await logout();
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 export const authReducer = authSlice.reducer;
 
-export const { signWithGoogle, setUser } = authSlice.actions;
+export const { setUser, setMessage, setChat } = authSlice.actions;
